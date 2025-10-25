@@ -4,8 +4,10 @@ Svelte Virtual Table
 A virtual table component for Svelte. It only renders the data that is visible on screen. This means you can scroll
 through millions of rows without any perf issue.
 
-This package is built upon https://github.com/sveltejs/svelte-virtual-list (@sveltejs/svelte-virtual-list). It was
-initially built for [Backdoor](https://github.com/tanin47/backdoor), A Postgres Data Querying and Editing Tool that you can embed into your JVM app.
+This is possibly the only virtual list that can handle the scrollable height larger than 16,777,200 pixels, which is
+the Google Chrome's limit for a div's height and padding. Other virtual lists would break down due to this limit. 16M 
+in pixels isn't as high as we think. 1,000,000 rows whose row height is 20px is already 20,000,000px in height. 
+Read more about how we circumvent this limit here: [Improving a virtual list and overcoming Chrome's limitation](some url)
 
 Here are the improvements:
 
@@ -23,6 +25,9 @@ The caveats:
 * The row height and column width should be whole numbers. In the case of >500,000 rows, we've encountered a rendering issue if the numbers aren't whole.
 
 The test page generates 20,000,000 rows with a single column. The scrolling is smooth on Mac M4.
+
+This package is inspired by https://github.com/sveltejs/svelte-virtual-list (@sveltejs/svelte-virtual-list). It was
+initially built for [Backdoor](https://github.com/tanin47/backdoor), A Postgres Data Querying and Editing Tool that you can embed into your JVM app.
 
 Installation
 -------------
@@ -164,3 +169,4 @@ Test
 
 1. Scrolling up to the top and seeing the first row
 2. Scrolling down to the bottom and see the last row.
+3. Drag the scrollbar thumb to the bottommost. We should not see it flicker.
